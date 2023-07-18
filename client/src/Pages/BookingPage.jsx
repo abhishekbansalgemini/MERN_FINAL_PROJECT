@@ -40,7 +40,7 @@ export default function BookingPage() {
           </div>
           <div className="bg-primary p-6 text-white rounded-2xl">
             <div>Total Price</div>
-            <div className="text-3xl">${booking.price}</div>
+            <div className="text-3xl">₹{booking.price}</div>
           </div>
         </div>
         <PlaceGalary place={booking.place}></PlaceGalary>
