@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const PlaceModal = require("../models/Place");
+const BookingModel = require("../models/Booking");
 require("dotenv").config();
 
 const jwtSecret = process.env.jwtSecret;
@@ -40,8 +41,14 @@ const addPlaces = (req, res) => {
 const getUserPlaces = (req, res) => {
   const { token } = req.cookies;
   jwt.verify(token, jwtSecret, {}, async (err, user) => {
-    const { id } = user;
-    res.json(await PlaceModal.find({ owner: id }));
+    const { id, isSuperAdmin } = user;
+    if(isSuperAdmin){
+      res.json(await PlaceModal.find());
+    }
+    else{
+      res.json(await PlaceModal.find({ owner: id }));
+    }
+    
   });
 };
 
@@ -92,7 +99,9 @@ const getAllPlaces = async (req, res) => {
 
 const deletePlace = async (req, res) => {
   const { id } = req.params;
-  res.json(await PlaceModal.findByIdAndDelete(id));
+  const deletedPlace = await PlaceModal.findByIdAndDelete(id);
+  await BookingModel.deleteMany({place : id});
+  res.json(deletedPlace);
 };
 
 module.exports = {addPlaces, getUserPlaces, getParticularPlace, updatePlace, getAllPlaces, deletePlace};

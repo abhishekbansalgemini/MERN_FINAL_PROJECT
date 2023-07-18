@@ -18,32 +18,47 @@ function getUserDataFromRequest(req) {
 
 const booking = async (req, res) => {
   const user = await getUserDataFromRequest(req);
-  const { place, checkIn, checkOut, guests, name, phone, price, email } =
-    req.body;
-  BookingModel.create({
-    place,
-    checkIn,
-    checkOut,
-    guests,
-    name,
-    phone,
-    price,
-    user: user.id,
-    email,
-  })
-    .then((doc) => {
-      res.json(doc);
+  console.log(user);
+  if (user) {
+    const { place, checkIn, checkOut, guests, name, phone, price, email } =
+      req.body;
+    BookingModel.create({
+      place,
+      checkIn,
+      checkOut,
+      guests,
+      name,
+      phone,
+      price,
+      user: user.id,
+      email,
     })
-    .catch((err) => {
-      throw err;
-    });
+      .then((doc) => {
+        res.json(doc);
+      })
+      .catch((err) => {
+        throw err;
+      });
+  } else {
+    res.status(422).json("Please Login first");
+  }
 };
 
 const getBookings = async (req, res) => {
   const user = await getUserDataFromRequest(req);
-  res.json(await BookingModel.find({ user: user.id }).populate("place"));
+  if(user.isSuperAdmin){
+    
+    res.json(await BookingModel.find().populate("place"));
+  }
+  else{
+    res.json(await BookingModel.find({ user: user.id }).populate("place"));
+  }
+  
 };
 
+const getAllBookings = async (req, res) => {
+  res.json(await BookingModel.find());
+};
 
 const updateBooking = async (req, res) => {
   const {
@@ -54,24 +69,29 @@ const updateBooking = async (req, res) => {
     editName,
     editEmail,
     editPhone,
-    numberOfNights
+    numberOfNights,
   } = req.body;
 
   const booking = await BookingModel.findById(editBookingId);
   const place = await PlaceModel.findById(booking.place);
-  booking.set({
-    place: booking.place,
-    user: booking.user,
-    checkIn: editCheckIn,
-    checkOut: editCheckOut,
-    guests: editGuests,
-    name: editName,
-    phone: editPhone,
-    email: editEmail,
-    price: numberOfNights*place.price,
-  });
-  await booking.save();
-  res.json("BOOKING UPDATED");
+  if (editGuests > place.maxGuests) {
+    console.log("hello");
+    res.status(422).json("Maximum Guest Limit Exceeded");
+  } else {
+    booking.set({
+      place: booking.place,
+      user: booking.user,
+      checkIn: editCheckIn,
+      checkOut: editCheckOut,
+      guests: editGuests,
+      name: editName,
+      phone: editPhone,
+      email: editEmail,
+      price: numberOfNights * place.price,
+    });
+    await booking.save();
+    res.json("BOOKING UPDATED");
+  }
 };
 
 const deleteBooking = async (req, res) => {
@@ -79,4 +99,28 @@ const deleteBooking = async (req, res) => {
   res.json(await BookingModel.findByIdAndDelete(id));
 };
 
-module.exports = { booking, getBookings, deleteBooking, updateBooking };
+const getBookingInfo = async(req, res) => {
+  const {id} = req.params;
+  const bookingInfo = await BookingModel.find({place : id});
+  if(bookingInfo){
+    res.status(200).json(bookingInfo);
+  }
+  else{
+    res.status(422).json("No bookings")
+  }
+}
+
+const adminCancelBooking = async (req,res) =>{
+  const {id} = req.params;
+  res.json(await BookingModel.findByIdAndDelete(id));
+}
+
+module.exports = {
+  booking,
+  getBookings,
+  deleteBooking,
+  updateBooking,
+  getAllBookings,
+  getBookingInfo,
+  adminCancelBooking
+};
