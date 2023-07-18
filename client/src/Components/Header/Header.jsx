@@ -1,20 +1,12 @@
 import { Link } from "react-router-dom";
 import { UserContext } from "../../Context/UserContext.jsx";
-import { useContext, useEffect, useState, useRef } from "react";
-import axios from "axios";
+import { useContext, useState, useRef } from "react";
 
 export default function Header({ onSearch }) {
   const { user } = useContext(UserContext);
   const [openSearchBar, setOpenSearchBar] = useState(false);
   const [searchValue, setSearchValue] = useState("");
-  const [places, setPlaces] = useState([]);
   const searchInputRef = useRef();
-
-  useEffect(() => {
-    axios.get("/places").then((response) => {
-      setPlaces(response.data);
-    });
-  }, []);
 
   function openSearch() {
     setOpenSearchBar(!openSearchBar);

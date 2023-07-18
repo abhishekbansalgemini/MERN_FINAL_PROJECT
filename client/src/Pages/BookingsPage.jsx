@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AccountNav from "../Components/AccountNavbar/AccountNav";
 import axios from "axios";
 import PlaceImg from "../Components/PlacesUtils/PlaceImg";
@@ -9,7 +9,6 @@ import "./modal.css";
 import { differenceInCalendarDays } from "date-fns";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { UserContext } from "../Context/UserContext";
 
 export default function BookingsPage() {
   const [searchValue, setSearchValue] = useState("");
@@ -81,7 +80,7 @@ export default function BookingsPage() {
       );
     }
     try {
-      const bookingInfo = await axios.put(`/bookings/${editBookingId}`, {
+      await axios.put(`/bookings/${editBookingId}`, {
         editBookingId,
         editCheckIn,
         editCheckOut,

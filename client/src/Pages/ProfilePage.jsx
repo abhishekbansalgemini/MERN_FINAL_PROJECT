@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../Context/UserContext";
 import { Navigate, useParams } from "react-router-dom";
 import axios from "axios";
@@ -40,14 +40,6 @@ export default function AccountPage() {
 
   function closeModal() {
     setShowModal(false);
-  }
-
-  function handleNameChange(e) {
-    setName(e.target.value);
-  }
-
-  function handleEmailChange(e) {
-    setEmail(e.target.value);
   }
 
   async function handleUpdate() {

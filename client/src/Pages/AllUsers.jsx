@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import {useEffect, useState } from "react";
 import AccountNav from "../Components/AccountNavbar/AccountNav";
 import Header from "../Components/Header/Header";
 import axios from "axios";
@@ -9,7 +9,6 @@ import {
   validateEmail,
   validateName,
 } from "../Components/ValidationsUtils/validationUtils";
-import { UserContext } from "../Context/UserContext";
 
 export default function AllUsers() {
   const [users, setUsers] = useState([]);
@@ -18,7 +17,6 @@ export default function AllUsers() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [id, setId] = useState("");
-  const { ready, user, setUser } = useContext(UserContext);
 
   useEffect(() => {
     axios.get("/allUsers").then((response) => {
@@ -42,21 +40,12 @@ export default function AllUsers() {
       });
   };
 
-  function openModal() {
-    setShowModal(true);
-  }
+
 
   function closeModal() {
     setShowModal(false);
   }
 
-  function handleNameChange(e) {
-    setName(e.target.value);
-  }
-
-  function handleEmailChange(e) {
-    setEmail(e.target.value);
-  }
 
   async function updateUser(id) {
     {
@@ -79,7 +68,7 @@ export default function AllUsers() {
       }
 
       try {
-        const userInfo = await axios.put("/updateUserBySuperAdmin", {
+        await axios.put("/updateUserBySuperAdmin", {
           id,
           name,
           email,
