@@ -26,16 +26,14 @@ export default function BookingInfoPage() {
   }
 
   async function handleCancelBooking(id) {
-    try{
-      const response = await axios.delete("/adminCancelBooking/"+id);
-      if(response){
+    try {
+      const response = await axios.delete("/adminCancelBooking/" + id);
+      if (response) {
         setBookingInfo((prevBookings) =>
-            prevBookings.filter((booking) => booking._id !== id)
-          );
+          prevBookings.filter((booking) => booking._id !== id)
+        );
       }
-    }catch(err){
-
-    }
+    } catch (err) {}
   }
 
   return (
@@ -60,13 +58,16 @@ export default function BookingInfoPage() {
                 <span className="font-bold">Booking Details</span>
               </div>
               <div>
-                <span className="font-bold">Name:</span> <span>{booking.name}</span>
+                <span className="font-bold">Name:</span>{" "}
+                <span>{booking.name}</span>
               </div>
               <div>
-                <span className="font-bold">Email:</span> <span>{booking.email}</span>
+                <span className="font-bold">Email:</span>{" "}
+                <span>{booking.email}</span>
               </div>
               <div>
-                <span className="font-bold">Phone:</span> <span>{booking.phone}</span>
+                <span className="font-bold">Phone:</span>{" "}
+                <span>{booking.phone}</span>
               </div>
               <div>
                 <span className="font-bold">Number of Guests:</span>{" "}
@@ -83,7 +84,9 @@ export default function BookingInfoPage() {
               <div className="flex ">
                 <button
                   className="bg-primary hover:bg-red-500 text-white py-1 px-4 rounded-2xl"
-                  onClick={()=>{handleCancelBooking(booking._id)}}
+                  onClick={() => {
+                    handleCancelBooking(booking._id);
+                  }}
                 >
                   Cancel
                 </button>

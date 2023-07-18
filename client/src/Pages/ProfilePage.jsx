@@ -122,7 +122,6 @@ export default function AccountPage() {
           <p className="text-xl font-bold mb-2">
             Welcome, {user?.name}! {user.isSuperAdmin ? "(Super Admin)" : ""}
             {user.isAdmin && !user.isSuperAdmin ? "(Admin)" : ""}
-            {console.log(user.isSuperAdmin)}
           </p>
           <p className="text-gray-500 text-sm">Email: {user?.email}</p>
 

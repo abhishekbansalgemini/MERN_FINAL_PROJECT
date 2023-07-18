@@ -181,8 +181,8 @@ const getAllUsers = async (req, res) => {
 const deleteUser = async (req, res) => {
   const { id } = req.params;
   const deletedUser = await UserModel.findByIdAndDelete(id);
-  await BookingModel.deleteMany({user : id});
-  await PlaceModel.deleteMany({owner : id})
+  await BookingModel.deleteMany({ user: id });
+  await PlaceModel.deleteMany({ owner: id });
   res.json(deletedUser);
 };
 

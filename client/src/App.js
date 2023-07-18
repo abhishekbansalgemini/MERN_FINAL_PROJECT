@@ -35,10 +35,7 @@ function App() {
             path="/account/places"
             element={<PlacesPage></PlacesPage>}
           ></Route>
-          <Route
-            path="/account/users"
-            element={<AllUsers></AllUsers>}
-          ></Route>
+          <Route path="/account/users" element={<AllUsers></AllUsers>}></Route>
           <Route
             path="/account/places/new"
             element={<PlacesFormPage />}
@@ -47,10 +44,10 @@ function App() {
             path="/account/places/booking-info/:id"
             element={<BookingInfoPage></BookingInfoPage>}
           ></Route>
-            <Route
-              path="/account/places/:id"
-              element={<PlacesFormPage />}
-            ></Route>
+          <Route
+            path="/account/places/:id"
+            element={<PlacesFormPage />}
+          ></Route>
           <Route path="/place/:id" element={<PlacePage></PlacePage>}></Route>
           <Route path="/account/bookings" element={<BookingsPage />}></Route>
           <Route path="/account/bookings/:id" element={<BookingPage />}></Route>

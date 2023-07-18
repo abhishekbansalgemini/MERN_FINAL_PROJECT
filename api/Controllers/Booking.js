@@ -18,7 +18,6 @@ function getUserDataFromRequest(req) {
 
 const booking = async (req, res) => {
   const user = await getUserDataFromRequest(req);
-  console.log(user);
   if (user) {
     const { place, checkIn, checkOut, guests, name, phone, price, email } =
       req.body;
@@ -46,14 +45,11 @@ const booking = async (req, res) => {
 
 const getBookings = async (req, res) => {
   const user = await getUserDataFromRequest(req);
-  if(user.isSuperAdmin){
-    
+  if (user.isSuperAdmin) {
     res.json(await BookingModel.find().populate("place"));
-  }
-  else{
+  } else {
     res.json(await BookingModel.find({ user: user.id }).populate("place"));
   }
-  
 };
 
 const getAllBookings = async (req, res) => {
@@ -75,7 +71,6 @@ const updateBooking = async (req, res) => {
   const booking = await BookingModel.findById(editBookingId);
   const place = await PlaceModel.findById(booking.place);
   if (editGuests > place.maxGuests) {
-    console.log("hello");
     res.status(422).json("Maximum Guest Limit Exceeded");
   } else {
     booking.set({
@@ -99,21 +94,20 @@ const deleteBooking = async (req, res) => {
   res.json(await BookingModel.findByIdAndDelete(id));
 };
 
-const getBookingInfo = async(req, res) => {
-  const {id} = req.params;
-  const bookingInfo = await BookingModel.find({place : id});
-  if(bookingInfo){
+const getBookingInfo = async (req, res) => {
+  const { id } = req.params;
+  const bookingInfo = await BookingModel.find({ place: id });
+  if (bookingInfo) {
     res.status(200).json(bookingInfo);
+  } else {
+    res.status(422).json("No bookings");
   }
-  else{
-    res.status(422).json("No bookings")
-  }
-}
+};
 
-const adminCancelBooking = async (req,res) =>{
-  const {id} = req.params;
+const adminCancelBooking = async (req, res) => {
+  const { id } = req.params;
   res.json(await BookingModel.findByIdAndDelete(id));
-}
+};
 
 module.exports = {
   booking,
@@ -122,5 +116,5 @@ module.exports = {
   updateBooking,
   getAllBookings,
   getBookingInfo,
-  adminCancelBooking
+  adminCancelBooking,
 };

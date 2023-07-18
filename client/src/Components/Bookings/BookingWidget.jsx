@@ -28,7 +28,6 @@ export default function BookingWidget({ place }) {
       setEmail(user.email);
     }
   }, [user]);
-  
 
   let numberOfNights = 0;
 

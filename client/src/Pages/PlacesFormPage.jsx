@@ -126,10 +126,7 @@ export default function PlacesFormPage() {
           />
 
           {preInput("Photos", "more=better")}
-          <PhotosUploader
-            addedPhotos={addedPhotos}
-            onChange={setAddedPhotos}
-          />
+          <PhotosUploader addedPhotos={addedPhotos} onChange={setAddedPhotos} />
 
           {preInput("Description", "description of the place")}
           <textarea

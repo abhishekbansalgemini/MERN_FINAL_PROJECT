@@ -1,7 +1,7 @@
 const express = require("express");
 const multer = require("multer");
 const router = express.Router();
-const {uploadByLink, uploadFromLocal} = require('../Controllers/Upload');
+const { uploadByLink, uploadFromLocal } = require("../Controllers/Upload");
 
 const photosMiddleWare = multer({ dest: "uploads" });
 

@@ -25,14 +25,10 @@ export default function BookingsPage() {
   const [editEmail, setEditEmail] = useState("");
   const [editPhone, setEditPhone] = useState("");
   useEffect(() => {
-        axios.get("/bookings").then((response) => {
-          setBookings(response.data);
-        });
+    axios.get("/bookings").then((response) => {
+      setBookings(response.data);
+    });
   }, []);
-
-  
-
-
 
   function cancelBooking(bookingId) {
     setSelectedBookingId(bookingId);

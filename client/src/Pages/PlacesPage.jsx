@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import AccountNav from "../Components/AccountNavbar/AccountNav";
 import axios from "axios";
 import PlaceImg from "../Components/PlacesUtils/PlaceImg";
@@ -10,7 +10,6 @@ export default function PlacesPage() {
   const [places, setPlaces] = useState([]);
   const [searchValue, setSearchValue] = useState("");
 
-
   useEffect(() => {
     axios.get("/user-places").then(({ data }) => {
       setPlaces(data);
@@ -20,9 +19,6 @@ export default function PlacesPage() {
   function handleSearch(value) {
     setSearchValue(value);
   }
-
-  
-
 
   return (
     <div className="container mx-auto px-4">
@@ -72,7 +68,7 @@ export default function PlacesPage() {
               </div>
               <Link
                 className="absolute top-2 right-8 text-gray-500 bg-transparent"
-                to = {"/account/places/booking-info/"+place._id}
+                to={"/account/places/booking-info/" + place._id}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -116,7 +112,6 @@ export default function PlacesPage() {
             </div>
           ))}
       </div>
-      
     </div>
   );
 }

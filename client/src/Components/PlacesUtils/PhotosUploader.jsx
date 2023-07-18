@@ -35,7 +35,9 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
   }
   function selectAsMainPhoto(event, filename) {
     event.preventDefault();
-    const addedPhotosWithoutSelected = addedPhotos.filter((photo) => photo !== filename);
+    const addedPhotosWithoutSelected = addedPhotos.filter(
+      (photo) => photo !== filename
+    );
     const newAddedPhotos = [filename, ...addedPhotosWithoutSelected];
     onChange(newAddedPhotos);
   }
@@ -85,7 +87,7 @@ export default function PhotosUploader({ addedPhotos, onChange }) {
               </button>
 
               <button
-                onClick={(event) => selectAsMainPhoto(event,link)}
+                onClick={(event) => selectAsMainPhoto(event, link)}
                 className="cursor-pointer absolute bottom-1 left-1 text-white bg-black p-1 bg-opacity-50 rounded-2xl py-2 px-3"
               >
                 {link === addedPhotos[0] && (

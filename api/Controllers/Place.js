@@ -42,19 +42,17 @@ const getUserPlaces = (req, res) => {
   const { token } = req.cookies;
   jwt.verify(token, jwtSecret, {}, async (err, user) => {
     const { id, isSuperAdmin } = user;
-    if(isSuperAdmin){
+    if (isSuperAdmin) {
       res.json(await PlaceModal.find());
-    }
-    else{
+    } else {
       res.json(await PlaceModal.find({ owner: id }));
     }
-    
   });
 };
 
 const getParticularPlace = async (req, res) => {
   const { id } = req.params;
-  res.json(await PlaceModal.findById(id));  
+  res.json(await PlaceModal.findById(id));
 };
 
 const updatePlace = async (req, res) => {
@@ -100,8 +98,15 @@ const getAllPlaces = async (req, res) => {
 const deletePlace = async (req, res) => {
   const { id } = req.params;
   const deletedPlace = await PlaceModal.findByIdAndDelete(id);
-  await BookingModel.deleteMany({place : id});
+  await BookingModel.deleteMany({ place: id });
   res.json(deletedPlace);
 };
 
-module.exports = {addPlaces, getUserPlaces, getParticularPlace, updatePlace, getAllPlaces, deletePlace};
+module.exports = {
+  addPlaces,
+  getUserPlaces,
+  getParticularPlace,
+  updatePlace,
+  getAllPlaces,
+  deletePlace,
+};

@@ -22,7 +22,6 @@ export default function AllUsers() {
 
   useEffect(() => {
     axios.get("/allUsers").then((response) => {
-      console.log(response.data);
       setUsers(response.data);
     });
   }, []);
