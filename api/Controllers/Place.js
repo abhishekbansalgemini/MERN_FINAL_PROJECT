@@ -98,7 +98,10 @@ const getAllPlaces = async (req, res) => {
 const deletePlace = async (req, res) => {
   const { id } = req.params;
   const deletedPlace = await PlaceModal.findByIdAndDelete(id);
-  await BookingModel.deleteMany({ place: id });
+  const findBooking = await BookingModel.find({ place: id });
+  if (findBooking) {
+    await BookingModel.deleteMany({ place: id });
+  }
   res.json(deletedPlace);
 };
 

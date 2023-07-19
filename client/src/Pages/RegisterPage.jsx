@@ -101,6 +101,9 @@ export default function RegisterPage() {
               />
             </div>
             <div className="relative">
+            <label htmlFor="email" className="text-gray-700">
+                Password
+              </label>
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
@@ -111,7 +114,7 @@ export default function RegisterPage() {
               />
               <button
                 type="button"
-                className="absolute top-4 right-3 text-gray-400"
+                className="absolute top-10 right-3 text-gray-400"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? (
