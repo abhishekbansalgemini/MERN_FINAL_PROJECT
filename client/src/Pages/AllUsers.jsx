@@ -1,4 +1,4 @@
-import {useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import AccountNav from "../Components/AccountNavbar/AccountNav";
 import Header from "../Components/Header/Header";
 import axios from "axios";
@@ -40,12 +40,9 @@ export default function AllUsers() {
       });
   };
 
-
-
   function closeModal() {
     setShowModal(false);
   }
-
 
   async function updateUser(id) {
     {
