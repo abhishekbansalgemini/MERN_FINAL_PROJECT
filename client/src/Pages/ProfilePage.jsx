@@ -14,6 +14,7 @@ import {
 } from "../Components/ValidationsUtils/validationUtils";
 import "./modal2.css";
 import Loader from "../Components/Loader/Loader";
+import { UserX } from "react-feather";
 
 export default function AccountPage() {
   const [redirect, setRedirect] = useState(null);
@@ -22,6 +23,9 @@ export default function AccountPage() {
   const [showModal, setShowModal] = useState(false);
   const [name, setName] = useState(user?.name);
   const [email, setEmail] = useState(user?.email);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalHeading, setModalHeading] = useState("");
 
   let { subpage } = useParams();
   if (subpage === undefined) {
@@ -68,7 +72,6 @@ export default function AccountPage() {
         email,
       });
       setUser(userInfo.data);
-      window.onload();
     } catch (err) {
       if (err?.response?.status === 409) {
         toast("Email id already exist");
@@ -80,15 +83,29 @@ export default function AccountPage() {
   }
 
   async function makeUserAsAdmin() {
+    setShowDeleteModal(false);
     setUser((prevUser) => ({ ...prevUser, isAdmin: true }));
     try {
       setUser((prevUser) => ({ ...prevUser, isAdmin: true }));
       const makeAdmin = await axios.put("/changeUserToAdmin", {
         id: user._id,
       });
+      
       setUser(makeAdmin.data);
-      window.location.reload();
+      
     } catch (err) {}
+    
+  }
+
+  async function deleteUser() {
+    try {
+      logout();
+      await axios.delete("/deleteUser/" + user._id);
+      
+    } catch (err) {
+      console.log(err);
+    }
+
   }
 
   if (!ready) return <Loader></Loader>;
@@ -121,7 +138,11 @@ export default function AccountPage() {
             {!user?.isAdmin && !user.isSuperAdmin && (
               <button
                 className="text-gray-500 hover:text-gray-600 bg-transparent"
-                onClick={makeUserAsAdmin}
+                onClick={() => {
+                  setShowDeleteModal(true);
+                  setModalMessage("Are you sure you want to be an admin?");
+                  setModalHeading("Confirm Admin")
+                }}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -163,8 +184,12 @@ export default function AccountPage() {
               </svg>
             </button>
             <button
-              onClick={logout}
-              className="text-red-500 hover:text-red-700 bg-transparent"
+              onClick={() => {
+                setShowDeleteModal(true);
+                setModalMessage("Are you sure you want to logout?");
+                setModalHeading("Confirm logout")
+              }}
+              className="text-gray-700 hover:text-gray-600 bg-transparent"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -181,11 +206,60 @@ export default function AccountPage() {
                 />
               </svg>
             </button>
+            <button
+              onClick={() => {
+                setShowDeleteModal(true);
+                setModalMessage(
+                  "Are you sure you want to delete your account?"
+                );
+                setModalHeading("Confirm deletion")
+              }}
+              className="text-red-500 hover:text-green-700 bg-transparent"
+            >
+              <UserX></UserX>
+            </button>
           </div>
         </div>
       )}
       {subpage === "places" && <PlacesPage />}
       <ToastContainer></ToastContainer>
+      <Modal
+        isOpen={showDeleteModal}
+        onRequestClose={() => setShowDeleteModal(false)}
+        ariaHideApp={false}
+        className="modal-content w-fit"
+        overlayClassName="modal-overlay"
+      >
+        <h2>{modalHeading}</h2>
+        <p>{modalMessage}</p>
+        <div className="flex justify-end">
+          <button className="mr-2" onClick={() => setShowDeleteModal(false)}>
+            Cancel
+          </button>
+          {
+            modalMessage === "Are you sure you want to delete your account?" && (
+              <button className="text-red-500" onClick={deleteUser}>
+            Confirm
+          </button>
+            )
+          }
+          {
+            modalMessage === "Are you sure you want to logout?" && (
+              <button className="text-red-500" onClick={logout}>
+            Confirm
+          </button>
+            )
+          }
+          {
+            modalMessage === "Are you sure you want to be an admin?" && (
+              <button className="text-red-500" onClick={makeUserAsAdmin}>
+            Confirm
+          </button>
+            )
+          }
+
+        </div>
+      </Modal>
       <Modal
         isOpen={showModal}
         onRequestClose={() => setShowModal(false)}
