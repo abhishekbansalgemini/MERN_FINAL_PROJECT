@@ -175,7 +175,7 @@ export default function AllUsers() {
         className="modal-content w-fit"
         overlayClassName="modal-overlay"
       >
-        <h2>Confirm Cancellation</h2>
+        <h2>Confirm Deletion</h2>
         <p>Are you sure you want to delete this user?</p>
         <div className="flex justify-end">
           <button className="mr-2" onClick={() => setShowDeleteModal(false)}>
