@@ -81,7 +81,7 @@ export default function LoginPage() {
                 type="email"
                 id="email"
                 className="w-full px-4 py-2 rounded focus:outline-none focus:ring focus:ring-purple-500"
-                placeholder="Email"
+                placeholder="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -95,7 +95,7 @@ export default function LoginPage() {
                   type={showPassword ? "text" : "password"}
                   id="password"
                   className="w-full px-4 py-2 rounded focus:outline-none focus:ring focus:ring-purple-500"
-                  placeholder="Password"
+                  placeholder="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
