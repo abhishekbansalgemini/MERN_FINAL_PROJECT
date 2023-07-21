@@ -213,16 +213,16 @@ const updateUserBySuperAdmin = async (req, res) => {
 
 const sendOTP = async (email, otp) => {
   const transporter = nodemailer.createTransport({
-    host: "sandbox.smtp.mailtrap.io",
-    port: 587,
+    host: process.env.HOST,
+    port: process.env.MAIL_PORT,
     auth: {
-      user: "4927996cf3a741",
-      pass: "c38ee4f30d65d2",
+      user: process.env.USER,
+      pass: process.env.PASSWORD,
     },
   });
 
   const mailOptions = {
-    from: "Abhishek Bansal<abhishek.bansal_cs20@gla.ac.in> ",
+    from: process.env.EMAIL,
     to: email,
     subject: "Password Reset OTP",
     text: `Your OTP for password reset is: ${otp}`,
