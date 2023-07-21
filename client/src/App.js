@@ -18,7 +18,7 @@ import ForgotPassword from "./Pages/ForgotPassword";
 import ResetPassword from "./Pages/ResetPassword";
 import Footer from "./Components/Footer/Footer";
 
-axios.defaults.baseURL = "http://localhost:4000";
+axios.defaults.baseURL = "https://blisss.onrender.com/";
 axios.defaults.withCredentials = true;
 function App() {
   return (
